@@ -1,15 +1,33 @@
 const fs=require('fs'),path=require('path'),today=new Date().toISOString().slice(0,10),slug=today;
-const feed=JSON.parse(fs.readFileSync(path.join(__dirname,'..','feed.json'),'utf8'));
-if(feed.posts.find(p=>p.slug===slug)){console.log('Exists');process.exit(0)}
-const articles=[
-{title:'体检报告怎么看？10个关键指标一次教会你',tag:'健康检查',intro:'体检报告拿到手密密麻麻一堆数字，看得一头雾水？其实不需要医学学位也能看懂。这篇文章告诉你最关键的10个指标分别代表什么，什么情况需要重视。',sections:[{title:'🩸 血常规三兄弟',body:'白细胞（WBC）：身体的免疫军队，偏高可能是有感染，偏低可能是免疫力下降。红细胞（RBC）和血红蛋白（Hb）：负责运输氧气，偏低就是贫血。血小板（PLT）：负责止血，太低容易出血，太高容易血栓。这三个是血常规里最核心的指标，箭头偏离正常范围超过20%要复查。'},{title:'🫀 血脂四项',body:'总胆固醇不是越低越好——人体需要胆固醇制造激素。关键是看构成：LDL（坏胆固醇）要低，HDL（好胆固醇）要高。甘油三酯主要受饮食影响，控制碳水化合物比控制脂肪更有效降甘油三酯。血脂高的人先调整饮食和运动3个月，降不下来再考虑用药。'},{title:'🍬 血糖和尿酸',body:'空腹血糖：正常＜6.1，6.1-7.0是糖尿病前期（可以逆转！），≥7.0可能有糖尿病需要进一步检查。餐后2小时血糖比空腹更能反映问题。尿酸：男性＞420女性＞360是高尿酸。高尿酸不一定会痛风，但痛风一定有高尿酸。多喝水是最简单的降尿酸方法。'},{title:'🫘 肝肾功能',body:'ALT和AST（转氨酶）：肝细胞受损会升高。轻度升高可能只是熬夜、喝酒、脂肪肝引起——调整生活方式一个月再复查。肌酐：肾功能的核心指标，升高要高度重视。尿素氮和肌酐一起看才能判断肾功能。eGFR（肾小球滤过率）比这两个更直观，＜60要去看肾内科。'}]},
-{title:'中医说的"湿气重"到底是什么？怎么判断和调理',tag:'中医养生',intro:'湿气这个词几乎被说烂了，但究竟什么是湿气？身体告诉你湿气重的信号有哪些？怎么用最简单的方法祛湿？',sections:[{title:'🔍 自查湿气的6个信号',body:'1. 早上起来舌苔厚腻，舌头两边有齿痕。2. 大便黏马桶冲不干净。3. 总觉得身体沉重不想动。4. 脸上和头发特别容易出油。5. 水肿型肥胖（按小腿有凹陷弹回慢）。6. 关节酸痛遇到潮湿天气加重。有3个以上——你大概率湿气重。'},{title:'🥣 饮食祛湿',body:'最有效的祛湿食材：薏米（薏仁）、赤小豆、茯苓、冬瓜、山药、白扁豆。薏米赤小豆水是最经典的祛湿方——各抓一把加水煮40分钟当水喝。注意：不是红豆是赤小豆，红豆补血不祛湿。少吃生冷、甜食、油腻——这三样是湿气的\"加油站\"。'},{title:'🏃 生活方式祛湿',body:'动起来！湿气最爱不运动的人。每天快走微微出汗就是最好的祛湿。泡脚加艾草或生姜（水温40-45度水没过脚踝，15-20分钟微微出汗即可）。洗完澡一定把脚趾缝擦干，潮湿环境易滋生真菌。住的地方保持通风，被褥勤晒。祛湿不是一天两天的事，贵在坚持。'}]},
-{title:'每天坐8小时的人，身体正在发生什么变化',tag:'办公健康',intro:'久坐被称为\"新的吸烟\"——它的危害被严重低估了。每天坐超过8小时的人，心血管疾病风险增加90%，2型糖尿病风险增加112%。但这些后果是可以逆转的。',sections:[{title:'💀 久坐对身体的具体伤害',body:'30分钟后：血液循环变慢，腿部开始积液。1小时后：脊柱承受的压力是站立时的1.4倍。3小时后：代谢率下降50%，脂肪燃烧几乎停止。长期：腰椎间盘突出、颈椎病、深静脉血栓风险增加、臀肌\"失忆\"导致骨盆前倾、心肺功能下降。'},{title:'🪑 坐姿纠正',body:'椅子高度：脚能平放地面、膝盖呈90度。腰部：放一个腰靠或用卷起来的毛巾撑住下背。屏幕：视线平行到屏幕顶部，不要低头看。手臂：肘关节90度，手腕平直。每30分钟起身站一下，不要连续坐超过1小时——设个闹钟提醒自己。'},{title:'🏋️ 每天10分钟对冲久坐伤害',body:'猫牛式（活动脊柱）、臀桥（唤醒臀肌）、靠墙天使（打开含胸的肩膀）、弓步拉伸（拉长久坐收缩的髋屈肌）。每天下班后花10分钟做这几个动作，比一天坐8小时后去跑1小时更有效。纠正比补偿重要：先改坐姿和工作习惯，运动是锦上添花。'}]},
-{title:'睡眠质量差？试试这7天睡眠优化方案',tag:'睡眠改善',intro:'睡不好不只是第二天没精神。长期睡眠差和高血压、糖尿病、抑郁症、老年痴呆症的风险都密切相关。7天睡眠优化方案，从今晚开始。',sections:[{title:'🌙 第1-3天：创造睡眠条件',body:'固定起床时间（比固定入睡时间更重要）。早晨起床后立刻接触自然光10分钟——重置你的生物钟。睡前一小时关手机（蓝光抑制褪黑素分泌）。卧室温度控制在18-22度（凉一点更容易入睡）。晚餐在睡前3小时吃完。咖啡下午2点以后不喝。这三天先做这些，不要吃药。'},{title:'📋 第4-5天：建立睡前仪式',body:'每晚睡前做相同的事让大脑知道\"要睡觉了\"。可以是：热水澡→看书20分钟→关灯。或者：泡脚→听轻音乐→关灯。不要在床上看手机、处理工作、看紧张的视频。床只用来睡觉，建立\"床=睡觉\"的条件反射。醒来后如果睡不着，起来去另一个房间看书，困了再回床上。'},{title:'📊 第6-7天：评估和调整',body:'睡眠改善不是立竿见影的。用手机记录入睡时间和醒来时间，关注趋势而不是每天的波动。如果醒来时觉得神清气爽就是改善的信号。深度睡眠一般1.5-2小时，占整晚的20%左右——不要太纠结于手环的数据，主观感受比数据重要。7天后还没改善建议去睡眠科做专业评估。'}]},
+const fp=path.join(__dirname,'..','feed.json');
+const feed=JSON.parse(fs.readFileSync(fp,'utf8'));
+if(!feed.posts)feed.posts=[];
+if(feed.posts.find(p=>p.slug===slug)){console.log('Already exists');process.exit(0)}
+
+// Content pools - 8 groups cycling through dates
+const pools=[
+[{t:'效率翻倍！这3个小技巧让你的工作流更顺畅',tag:'效率技巧',d:'减少切换、批处理、自动化——3个简单技巧立刻提升效率'}],
+[{t:'2026年必备的免费工具推荐',tag:'工具推荐',d:'精心挑选的实用免费工具，日常办公和创作都能用上'}],
+[{t:'为什么你总觉得时间不够用？',tag:'时间管理',d:'不是你不够努力，而是方法需要调整。重新规划你的时间分配'}],
+[{t:'工作学习两不误的小窍门',tag:'学习方法',d:'高效人士都在用的学习方法，每天只需投入少量时间'}],
+[{t:'比勤奋更重要的是方法',tag:'思维方式',d:'换个角度思考问题，可能会发现之前困扰你的事其实很简单'}],
+[{t:'减少决策疲劳的日常习惯',tag:'习惯养成',d:'每天做太多小决定会消耗精力，建立习惯让大脑自动运行'}],
+[{t:'让生活更有条理的整理术',tag:'生活技巧',d:'整理不只是打扫房间，更是整理思绪和提升幸福感的方式'}],
+[{t:'数字时代如何保持专注',tag:'专注力',d:'手机和社交媒体在偷走你的注意力，教你几招夺回主动权'}],
 ];
-const idx=(new Date().getDate()-1)%articles.length,a=articles[idx];
-feed.posts.unshift({slug,date:today,title:a.title,tag:a.tag,intro:a.intro,sections:a.sections});
-feed.updated=today;fs.writeFileSync(path.join(__dirname,'..','feed.json'),JSON.stringify(feed,null,2));
-const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${a.title} - 大健康</title><meta name="description" content="${a.intro}"><style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}:root{--bg:#fafafa;--card:#fff;--text:#1a1a2e;--t2:#555;--accent:#059669;--border:#e5e7eb;--r:12px}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:16px}.container{max-width:750px;margin:0 auto;padding:0 20px}header{background:linear-gradient(135deg,#059669,#10b981);color:#fff;padding:36px 0;margin-bottom:24px}header a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.9rem}header h1{font-size:1.5rem;margin-top:8px;line-height:1.4}.post{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px}.post .intro{font-size:1rem;color:var(--t2);margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);line-height:1.8}.section{margin-bottom:24px}.section h3{font-size:1.05rem;margin-bottom:6px;color:var(--accent)}.section p{color:var(--t2);font-size:.92rem;line-height:1.9}footer{text-align:center;padding:24px;color:#999;font-size:.75rem}@media(max-width:600px){.post{padding:18px}}</style></head><body><header><div class="container"><a href="../index.html">← 首页</a><h1>${a.title}</h1></div></header><main class="container"><article class="post"><p class="intro">${a.intro}</p>${a.sections.map(s=>`<div class="section"><h3>${s.title}</h3><p>${s.body}</p></div>`).join('')}</article></main><footer><p>🌿 大健康指南 · 每日更新</p></footer></body></html>`;
-fs.writeFileSync(path.join(__dirname,'..','posts',slug+'.html'),html);
-console.log('OK');
+
+const idx=(new Date().getDate()-1)%pools.length;
+const pool=pools[idx];
+const titles=['每日分享 | '+today,'实用技巧 | '+today,'效率提升 | '+today,'好物推荐 | '+today];
+const title=titles[new Date().getDate()%titles.length];
+
+feed.posts.unshift({slug,date:today,title:title,items:pool});
+feed.updated=today;
+fs.writeFileSync(fp,JSON.stringify(feed,null,2));
+
+// Create post HTML
+const dir=path.join(__dirname,'..','posts');
+if(!fs.existsSync(dir))fs.mkdirSync(dir,{recursive:true});
+const h=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${title}</title><meta name="description" content="${pool.map(i=>i.t).join('、')}"><style>body{font:16px -apple-system,sans-serif;background:#fafafa;color:#1a1a2e;line-height:1.8;margin:0;padding:16px}.c{max-width:700px;margin:0 auto}article{background:#fff;padding:24px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}h1{font-size:1.3rem;margin:0 0 4px}.date{font-size:.8rem;color:#666;margin-bottom:20px}.item{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #eee}.item h2{font-size:1rem;margin:0 0 4px}.item p{font-size:.88rem;color:#555}.tag{display:inline-block;background:#eff6ff;color:#2563eb;font-size:.68rem;padding:2px 8px;border-radius:10px;margin-left:6px}footer{text-align:center;padding:20px;color:#999;font-size:.72rem}</style></head><body><div class="c"><article><h1>${title}</h1><p class="date">📅 ${today}</p>${pool.map(i=>'<div class="item"><h2>'+i.t+' <span class="tag">'+i.tag+'</span></h2><p>'+i.d+'</p></div>').join('')}</article></div><footer>每日自动更新</footer></body></html>`;
+fs.writeFileSync(path.join(dir,slug+'.html'),h);
+console.log('Generated:',title);
